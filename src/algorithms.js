@@ -1,17 +1,15 @@
-
-
-export function bfs(start, finish, grid, rows, cols) {
+export function bfs(start, dest, grid, rows, cols) {
   // list to store the sequence of visited nodes
-  let visitedNodes = []
+  let visitedNodes = [];
 
   let visited = [];
   let queue = [];
   let prev = [];
   const directions = [
-    [1, 0],//right
-    [-1, 0],//left
-    [0, 1],//up
-    [0, -1],//down
+    [1, 0], //right
+    [-1, 0], //left
+    [0, 1], //up
+    [0, -1], //down
   ];
 
   for (let row = 0; row < rows; row++) {
@@ -26,7 +24,7 @@ export function bfs(start, finish, grid, rows, cols) {
   }
 
   queue.push(start);
-  visited[start.row][start.col] = true
+  visited[start.row][start.col] = true;
 
   let distance = 0;
   let destinationFound = false;
@@ -36,11 +34,11 @@ export function bfs(start, finish, grid, rows, cols) {
       let currNode = queue.shift();
       let currX = currNode.row;
       let currY = currNode.col;
-      
-      visitedNodes.push(currNode)
 
-      for(let k=0;k<directions.length;k++) {
-        let direction = directions[k]
+      visitedNodes.push(currNode);
+
+      for (let k = 0; k < directions.length; k++) {
+        let direction = directions[k];
         let nextX = currX + direction[0];
         let nextY = currY + direction[1];
 
@@ -51,20 +49,35 @@ export function bfs(start, finish, grid, rows, cols) {
           nextY < cols &&
           !visited[nextX][nextY]
         ) {
-          if (nextX === finish.row && nextY === finish.col) {
+          if (nextX === dest.row && nextY === dest.col) {
+            prev[nextX][nextY] = currNode;
             destinationFound = true;
             break;
           }
-    
+
           queue.push(grid[nextX][nextY]);
           prev[nextX][nextY] = currNode;
           visited[nextX][nextY] = true;
         }
-      };
+      }
     }
     distance++;
   }
-  console.log(distance);
-  return visitedNodes
+  let path = traceBackPath(grid, prev, dest);
+  return {
+    visitedNodes,
+    path,
+    distance
+  };
+}
 
+export function traceBackPath(grid, prev, destNode) {
+  let path = [];
+  let currNode = grid[destNode.row][destNode.col];
+  while (currNode != null) {
+    path.push(currNode);
+    currNode = prev[currNode.row][currNode.col];
+  }
+  path.reverse();
+  return path;
 }

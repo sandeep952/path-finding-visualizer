@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { bfs } from "../algorithms";
+import { bfs, traceBackPath } from "../algorithms";
 import Node from "./Node/Node";
 
 let rows = 20;
@@ -13,6 +13,7 @@ class PathFindingVisualizer extends Component {
       startCol: null,
       finishRow: null,
       finishCol: null,
+      distance: null,
     };
     this.toggleStartFinish = this.toggleStartFinish.bind(this);
     this.initalizeGrid = this.initalizeGrid.bind(this);
@@ -79,13 +80,12 @@ class PathFindingVisualizer extends Component {
   }
 
   reset() {
-   // this.initalizeGrid();
-   window.location.reload()
+    // this.initalizeGrid();
+    window.location.reload();
   }
 
   visualize() {
     let { grid, startRow, startCol, finishRow, finishCol } = this.state;
-    console.log("inside visualize");
     if (
       startRow == null ||
       startCol == null ||
@@ -94,7 +94,7 @@ class PathFindingVisualizer extends Component {
     )
       return;
 
-    let nodeSeq = bfs(
+    let { visitedNodes, path, distance } = bfs(
       grid[startRow][startCol],
       grid[finishRow][finishCol],
       grid,
@@ -102,7 +102,24 @@ class PathFindingVisualizer extends Component {
       columns
     );
 
-    this.animateBFS(nodeSeq, grid);
+    this.animateBFS(visitedNodes, grid);
+    setTimeout(() => {
+      this.animatePath(path);
+      this.setState({
+        distance,
+      });
+    }, visitedNodes.length * 25);
+  }
+
+  animatePath(path) {
+    for (let i = 0; i < path.length; i++) {
+      setTimeout(() => {
+        let currNode = path[i];
+        document
+          .getElementById(`node-${currNode.row}-${currNode.col}`)
+          .classList.add("path-node");
+      }, i * 25);
+    }
   }
 
   animateBFS(nodeSeq, grid) {
@@ -111,13 +128,13 @@ class PathFindingVisualizer extends Component {
         let currNode = nodeSeq[i];
         document
           .getElementById(`node-${currNode.row}-${currNode.col}`)
-          .classList.add("visited");
+          .classList.add("visited-node");
       }, i * 25);
     }
   }
 
   render() {
-    let { grid } = this.state;
+    let { grid, distance } = this.state;
     return (
       <React.Fragment>
         <h1>Path Finding Visualizer</h1>
@@ -129,7 +146,12 @@ class PathFindingVisualizer extends Component {
         <button className="btn btn-warning" onClick={this.visualize}>
           Visualize
         </button>
-
+        <p
+          className="distance"
+          style={{ visibility: distance ? "visible" : "hidden" }}
+        >
+          Shortest Distance is {distance}
+        </p>
         {grid.map((row, rowIndex) => {
           return (
             <div key={`row${rowIndex}`}>

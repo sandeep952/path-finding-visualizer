@@ -1,10 +1,20 @@
-.box{
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-    cursor: pointer;
+.box {
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  cursor: pointer;
 }
-.visited{
-    background-color: #00CCCD;
-    transition: background-color 0.3s ease;;
+.visited-node {
+  background-color: #00cccd;
+  transition: background-color 0.3s ease;
+}
+.path-node {
+  background-color: #192a56;
+  transition: background-color 0.3s ease;
+}
+.distance {
+  font-size: 20;
+  color:red;
+  transition:visibility 0.5s ease-in;
+  
 }
