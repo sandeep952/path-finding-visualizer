@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { bfs, traceBackPath } from "../algorithms";
 import Node from "./Node/Node";
-
 let rows = 20;
 let columns = 50;
 class PathFindingVisualizer extends Component {
@@ -9,6 +8,7 @@ class PathFindingVisualizer extends Component {
     super(props);
     this.state = {
       grid: [],
+
       startRow: null,
       startCol: null,
       finishRow: null,
@@ -22,6 +22,22 @@ class PathFindingVisualizer extends Component {
   }
 
   componentDidMount() {
+    let screenSize = window.screen.availWidth;
+    if(screenSize>=1300){
+      rows = 20
+      columns = 50
+    }
+    else if (screenSize < 1300 && screenSize > 700) {
+      rows = 20;
+      columns = 25;
+    } else if (screenSize < 700 && screenSize > 500){
+      rows = 15;
+      columns = 20;
+    }
+    else{
+      rows = 15
+      columns = 15
+    }
     this.initalizeGrid();
   }
 
@@ -57,6 +73,7 @@ class PathFindingVisualizer extends Component {
 
   initalizeGrid() {
     let grid = [];
+
     for (let row = 0; row < rows; row++) {
       let cols = [];
       for (let col = 0; col < columns; col++) {
@@ -152,22 +169,24 @@ class PathFindingVisualizer extends Component {
         >
           Shortest Distance is {distance}
         </p>
-        {grid.map((row, rowIndex) => {
-          return (
-            <div key={`row${rowIndex}`}>
-              {row.map((element, colIndex) => (
-                <Node
-                  id={`node-${rowIndex}-${colIndex}`}
-                  key={`node-${rowIndex}-${colIndex}`}
-                  {...grid[rowIndex][colIndex]}
-                  toggleStartFinish={() =>
-                    this.toggleStartFinish(rowIndex, colIndex)
-                  }
-                />
-              ))}
-            </div>
-          );
-        })}
+        <div className="visualizer">
+          {grid.map((row, rowIndex) => {
+            return (
+              <div key={`row${rowIndex}`} style={{ lineWidth: "0px" }}>
+                {row.map((element, colIndex) => (
+                  <Node
+                    id={`node-${rowIndex}-${colIndex}`}
+                    key={`node-${rowIndex}-${colIndex}`}
+                    {...grid[rowIndex][colIndex]}
+                    toggleStartFinish={() =>
+                      this.toggleStartFinish(rowIndex, colIndex)
+                    }
+                  />
+                ))}
+              </div>
+            );
+          })}
+        </div>
       </React.Fragment>
     );
   }

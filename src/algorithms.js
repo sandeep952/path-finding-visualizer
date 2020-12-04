@@ -1,15 +1,14 @@
 export function bfs(start, dest, grid, rows, cols) {
   // list to store the sequence of visited nodes
   let visitedNodes = [];
-
   let visited = [];
   let queue = [];
   let prev = [];
   const directions = [
-    [1, 0], //right
-    [-1, 0], //left
     [0, 1], //up
+    [1, 0], //right
     [0, -1], //down
+    [-1, 0], //left
   ];
 
   for (let row = 0; row < rows; row++) {
@@ -67,7 +66,7 @@ export function bfs(start, dest, grid, rows, cols) {
   return {
     visitedNodes,
     path,
-    distance
+    distance,
   };
 }
 
