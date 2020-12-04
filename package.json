@@ -2,7 +2,7 @@
   "name": "path-finding-visualizer",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/sandeep952/path-finding-visualizer",
+  "homepage": "https://sandeep952.github.io/path-finding-visualizer",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
