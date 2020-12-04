@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { bfs, traceBackPath } from "../algorithms";
 import Node from "./Node/Node";
-let rows = 20;
+let rows = 18;
 let columns = 50;
 class PathFindingVisualizer extends Component {
   constructor(props) {
@@ -23,20 +23,16 @@ class PathFindingVisualizer extends Component {
 
   componentDidMount() {
     let screenSize = window.screen.availWidth;
-    if(screenSize>=1300){
-      rows = 20
-      columns = 50
-    }
-    else if (screenSize < 1300 && screenSize > 700) {
+
+    if (screenSize < 1300 && screenSize > 700) {
       rows = 20;
       columns = 25;
-    } else if (screenSize < 700 && screenSize > 500){
+    } else if (screenSize < 700 && screenSize > 500) {
       rows = 15;
       columns = 20;
-    }
-    else{
-      rows = 15
-      columns = 15
+    } else if (screenSize < 500) {
+      rows = 15;
+      columns = 14;
     }
     this.initalizeGrid();
   }
@@ -154,17 +150,15 @@ class PathFindingVisualizer extends Component {
     let { grid, distance } = this.state;
     return (
       <React.Fragment>
-        <h1>Path Finding Visualizer</h1>
-
-        <button className="btn btn-primary m-2" onClick={this.reset}>
+        <h3>Path Finding Visualizer</h3>
+        <button className="btn btn-primary m-1" onClick={this.reset}>
           Reset
         </button>
-
         <button className="btn btn-warning" onClick={this.visualize}>
           Visualize
         </button>
         <p
-          className="distance"
+          className="distance lead"
           style={{ visibility: distance ? "visible" : "hidden" }}
         >
           Shortest Distance is {distance}
