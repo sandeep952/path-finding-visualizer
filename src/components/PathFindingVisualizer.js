@@ -154,6 +154,24 @@ class PathFindingVisualizer extends Component {
         <button className="btn btn-warning" onClick={this.visualize}>
           Visualize
         </button>
+        <div className="m-2">
+          <div className="info-tab">
+            <Node value="start-node" />
+            <span className="info-text">Start</span>
+          </div>
+          <div className="info-tab">
+            <Node value="destination-node" />
+            <span className="info-text"> Destination</span>
+          </div>
+          <div className="info-tab">
+            <Node value="visited-node" />
+            <span className="info-text">Visited</span>
+          </div>
+          <div className="info-tab">
+            <Node value="path-node" />
+            <span className="info-text">Path</span>
+          </div>
+        </div>
         <p
           className="distance lead"
           style={{ visibility: distance ? "visible" : "hidden" }}

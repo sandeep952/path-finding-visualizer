@@ -3,7 +3,7 @@ import "./Node.css";
 import classNames from "classnames";
 class Node extends Component {
   render() {
-    let { id, isStart, isFinish, toggleStartFinish, isVisited } = this.props;
+    let { id, isStart, isFinish, toggleStartFinish, value="" } = this.props;
     return (
       <div
         id={id}
@@ -11,6 +11,7 @@ class Node extends Component {
         className={classNames("box border border-primary", {
           "bg-warning": isStart,
           "bg-danger": isFinish,
+          [value]: true,
         })}
       ></div>
     );

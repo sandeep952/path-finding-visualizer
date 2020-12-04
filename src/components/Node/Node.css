@@ -1,9 +1,24 @@
-
 .box {
   width: 25px;
   height: 25px;
   display: inline-block;
   cursor: pointer;
+}
+.start-node {
+  background-color: #ffc107;
+  transition: background-color 0.3s ease;
+}
+.destination-node {
+  background-color: #dc3545;
+  transition: background-color 0.3s ease;
+}
+.info-tab{
+  display: inline-block;
+  padding: 5px;
+  margin: 5px;
+}
+.info-text{
+  margin: 5px;
 }
 .visited-node {
   background-color: #00cccd;
@@ -15,7 +30,6 @@
 }
 .distance {
   font-size: 20;
-  color:red;
-  transition:visibility 0.5s ease-in;
-  
+  color: red;
+  transition: visibility 0.5s ease-in;
 }
