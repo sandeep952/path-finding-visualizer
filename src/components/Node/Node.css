@@ -4,3 +4,7 @@
     display: inline-block;
     cursor: pointer;
 }
+.visited{
+    background-color: #00CCCD;
+    transition: background-color 0.3s ease;;
+}

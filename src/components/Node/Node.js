@@ -3,12 +3,13 @@ import "./Node.css";
 import classNames from "classnames";
 class Node extends Component {
   render() {
-    let { isStart, isFinish,toggleStartFinish } = this.props;
+    let { id, isStart, isFinish, toggleStartFinish, isVisited } = this.props;
     return (
       <div
-      onClick={toggleStartFinish}
+        id={id}
+        onClick={toggleStartFinish}
         className={classNames("box border border-primary", {
-          "bg-primary": isStart,
+          "bg-warning": isStart,
           "bg-danger": isFinish,
         })}
       ></div>
