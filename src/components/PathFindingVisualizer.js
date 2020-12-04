@@ -25,13 +25,10 @@ class PathFindingVisualizer extends Component {
     let screenSize = window.screen.availWidth;
 
     if (screenSize < 1300 && screenSize > 700) {
-      rows = 20;
       columns = 25;
     } else if (screenSize < 700 && screenSize > 500) {
-      rows = 15;
       columns = 20;
     } else if (screenSize < 500) {
-      rows = 15;
       columns = 14;
     }
     this.initalizeGrid();
