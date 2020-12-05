@@ -3,15 +3,27 @@ import "./Node.css";
 import classNames from "classnames";
 class Node extends Component {
   render() {
-    let { id, isStart, isFinish, toggleStartFinish, value="" } = this.props;
+    let {
+      id,
+      row,
+      col,
+      isStart,
+      isFinish,
+      wallMode,
+      isWall,
+      toggleWall,
+      toggleStartFinish,
+      nodeType = "",
+    } = this.props;
     return (
       <div
         id={id}
-        onClick={toggleStartFinish}
+        onClick={wallMode ? () => toggleWall(row, col) : toggleStartFinish}
         className={classNames("box border border-primary", {
-          "bg-warning": isStart,
-          "bg-danger": isFinish,
-          [value]: true,
+          "start-node": isStart,
+          "destination-node": isFinish,
+          "wall-node": isWall,
+          [nodeType]: true,
         })}
       ></div>
     );

@@ -48,6 +48,8 @@ export function bfs(start, dest, grid, rows, cols) {
           nextY < cols &&
           !visited[nextX][nextY]
         ) {
+          if(grid[nextX][nextY].isWall)
+          continue
           if (nextX === dest.row && nextY === dest.col) {
             prev[nextX][nextY] = currNode;
             destinationFound = true;
@@ -63,6 +65,9 @@ export function bfs(start, dest, grid, rows, cols) {
     distance++;
   }
   let path = traceBackPath(grid, prev, dest);
+  if(!path[0].isStart){
+    distance = -1;
+  }
   return {
     visitedNodes,
     path,

@@ -8,13 +8,15 @@ class PathFindingVisualizer extends Component {
     super(props);
     this.state = {
       grid: [],
-
+      wallMode: false,
       startRow: null,
       startCol: null,
       finishRow: null,
       finishCol: null,
       distance: null,
     };
+    this.toggleWall = this.toggleWall.bind(this);
+    this.toggleWallMode = this.toggleWallMode.bind(this);
     this.toggleStartFinish = this.toggleStartFinish.bind(this);
     this.initalizeGrid = this.initalizeGrid.bind(this);
     this.reset = this.reset.bind(this);
@@ -63,6 +65,14 @@ class PathFindingVisualizer extends Component {
       finishCol,
     });
   }
+  toggleWall(row, col) {
+    let { grid } = this.state;
+    let newGrid = [...grid];
+    newGrid[row][col].isWall = true;
+    this.setState({
+      grid: newGrid,
+    });
+  }
 
   initalizeGrid() {
     let grid = [];
@@ -82,6 +92,7 @@ class PathFindingVisualizer extends Component {
     }
     this.setState({
       grid,
+      wallMode: false,
       startRow: null,
       startCol: null,
       finishRow: null,
@@ -122,7 +133,7 @@ class PathFindingVisualizer extends Component {
   }
 
   animatePath(path) {
-    for (let i = 0; i < path.length; i++) {
+    for (let i = 1; i < path.length - 1; i++) {
       setTimeout(() => {
         let currNode = path[i];
         document
@@ -133,7 +144,7 @@ class PathFindingVisualizer extends Component {
   }
 
   animateBFS(nodeSeq, grid) {
-    for (let i = 0; i < nodeSeq.length; i++) {
+    for (let i = 1; i < nodeSeq.length - 1; i++) {
       setTimeout(() => {
         let currNode = nodeSeq[i];
         document
@@ -142,9 +153,15 @@ class PathFindingVisualizer extends Component {
       }, i * 25);
     }
   }
+  toggleWallMode() {
+    this.setState({
+      wallMode: !this.state.wallMode,
+    });
+  }
 
   render() {
-    let { grid, distance } = this.state;
+    console.log("rendering ");
+    let { grid, distance, wallMode } = this.state;
     return (
       <React.Fragment>
         <h3>Path Finding Visualizer</h3>
@@ -154,29 +171,44 @@ class PathFindingVisualizer extends Component {
         <button className="btn btn-warning" onClick={this.visualize}>
           Visualize
         </button>
-        <div className="m-2">
+        <div className="m-1">
           <div className="info-tab">
-            <Node value="start-node" />
+            <Node nodeType="start-node" />
             <span className="info-text">Start</span>
           </div>
           <div className="info-tab">
-            <Node value="destination-node" />
+            <Node nodeType="destination-node" />
             <span className="info-text"> Destination</span>
           </div>
           <div className="info-tab">
-            <Node value="visited-node" />
+            <Node nodeType="visited-node" />
             <span className="info-text">Visited</span>
           </div>
           <div className="info-tab">
-            <Node value="path-node" />
+            <Node nodeType="path-node" />
             <span className="info-text">Path</span>
+          </div>
+
+          <div className="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              className="custom-control-input"
+              id="wallMode"
+              checked={wallMode}
+              onChange={this.toggleWallMode}
+            />
+            <label className="custom-control-label" htmlFor="wallMode">
+              WallMode
+            </label>
           </div>
         </div>
         <p
           className="distance lead"
           style={{ visibility: distance ? "visible" : "hidden" }}
         >
-          Shortest Distance is {distance}
+          {distance !== -1
+            ? `Shortest Distance is ${distance}`
+            : "NO PATH FOUND"}
         </p>
         <div className="visualizer">
           {grid.map((row, rowIndex) => {
@@ -185,6 +217,8 @@ class PathFindingVisualizer extends Component {
                 {row.map((element, colIndex) => (
                   <Node
                     id={`node-${rowIndex}-${colIndex}`}
+                    wallMode={wallMode}
+                    toggleWall={this.toggleWall}
                     key={`node-${rowIndex}-${colIndex}`}
                     {...grid[rowIndex][colIndex]}
                     toggleStartFinish={() =>

@@ -25,11 +25,15 @@
   transition: background-color 0.3s ease;
 }
 .path-node {
-  background-color: #192a56;
+  background-color:#4834DF;
   transition: background-color 0.3s ease;
 }
 .distance {
   font-size: 20;
   color: red;
   transition: visibility 0.5s ease-in;
+}
+.wall-node{
+  background-color:#2C3335;
+  transition: background-color 0.3s ease;
 }
