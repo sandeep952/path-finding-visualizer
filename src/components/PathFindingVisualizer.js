@@ -240,7 +240,7 @@ class PathFindingVisualizer extends Component {
         </div>
         <div className="info-tab">
           <div className="box wall-node"></div>
-          <span className="info-text">Path</span>
+          <span className="info-text">Wall</span>
         </div>
 
         <div className="custom-control custom-checkbox mb-3">
