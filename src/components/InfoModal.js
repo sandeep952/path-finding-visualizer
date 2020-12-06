@@ -26,7 +26,7 @@ const tutorial = [
       `A wall will block the path and will not allow you to go through.`,
     ],
     image:
-      "https://github.com/sandeep952/path-finding-visualizer/blob/master/public/wallmode.jpeg",
+      "https://raw.githubusercontent.com/sandeep952/path-finding-visualizer/master/public/wallmode.jpg",
   },
 ];
 
@@ -55,7 +55,7 @@ const InfoModal = (props) => {
 
             <p style={{ fontSize: 18 }}>{content[1]}</p>
 
-            {image && <img src={image} width="100px" height="100px"/>}
+            {image && <img src={image} width="100%" height="100%" />}
           </div>
         </ModalBody>
         <ModalFooter>
