@@ -12,12 +12,12 @@
   background-color: #dc3545;
   transition: background-color 0.3s ease;
 }
-.info-tab{
+.info-tab {
   display: inline-block;
   padding: 5px;
   margin: 5px;
 }
-.info-text{
+.info-text {
   margin: 5px;
 }
 .visited-node {
@@ -25,7 +25,7 @@
   transition: background-color 0.3s ease;
 }
 .path-node {
-  background-color:#4834DF;
+  background-color: #4834df;
   transition: background-color 0.3s ease;
 }
 .distance {
@@ -33,7 +33,7 @@
   color: red;
   transition: visibility 0.5s ease-in;
 }
-.wall-node{
-  background-color:#2C3335;
-  transition: background-color 0.3s ease;
+.wall-node {
+  background-color: #2c3335;
+  transition: all 0.3s ease;
 }

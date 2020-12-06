@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { bfs, traceBackPath } from "../algorithms";
+import InfoModal from "./InfoModal";
 import Node from "./Node/Node";
-let rows = 18;
+let rows = 16;
 let columns = 50;
 class PathFindingVisualizer extends Component {
   constructor(props) {
@@ -14,7 +15,9 @@ class PathFindingVisualizer extends Component {
       finishRow: null,
       finishCol: null,
       distance: null,
+      showModal: true,
     };
+    this.toggleModal = this.toggleModal.bind(this);
     this.toggleWall = this.toggleWall.bind(this);
     this.toggleWallMode = this.toggleWallMode.bind(this);
     this.toggleStartFinish = this.toggleStartFinish.bind(this);
@@ -35,6 +38,12 @@ class PathFindingVisualizer extends Component {
     }
     this.initalizeGrid();
   }
+
+  toggleModal = () => {
+    this.setState({
+      showModal: !this.state.showModal,
+    });
+  };
 
   toggleStartFinish(row, col) {
     let { grid } = this.state;
@@ -97,6 +106,7 @@ class PathFindingVisualizer extends Component {
       startCol: null,
       finishRow: null,
       finishCol: null,
+      showModal: true,
     });
   }
 
@@ -161,9 +171,10 @@ class PathFindingVisualizer extends Component {
 
   render() {
     console.log("rendering ");
-    let { grid, distance, wallMode } = this.state;
+    let { grid, distance, wallMode,showModal } = this.state;
     return (
       <React.Fragment>
+        <InfoModal showModal={showModal} toggleModal={this.toggleModal} />
         <h3>Path Finding Visualizer</h3>
         <button className="btn btn-primary m-1" onClick={this.reset}>
           Reset
