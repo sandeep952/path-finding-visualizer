@@ -23,9 +23,10 @@ const tutorial = [
     title: "Adding walls ",
     content: [
       `You can switch to wall mode by clicking on the checkbox and add walls in the grid.`,
-      `A wall will block the path and will now allow you to go through.`,
+      `A wall will block the path and will not allow you to go through.`,
     ],
-    image: "wallmode.jpeg",
+    image:
+      "https://github.com/sandeep952/path-finding-visualizer/blob/master/public/wallmode.jpeg",
   },
 ];
 
@@ -54,7 +55,7 @@ const InfoModal = (props) => {
 
             <p style={{ fontSize: 18 }}>{content[1]}</p>
 
-            {image && <img src={image} />}
+            {image && <img src={image} width="100px" height="100px"/>}
           </div>
         </ModalBody>
         <ModalFooter>
