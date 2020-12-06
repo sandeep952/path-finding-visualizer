@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { bfs, traceBackPath } from "../algorithms";
 import InfoModal from "./InfoModal";
+import NavBar from "./NavBar";
 import Node from "./Node/Node";
-let rows = 16;
-let columns = 50;
+let rows = 17;
+let columns = 55;
 class PathFindingVisualizer extends Component {
   constructor(props) {
     super(props);
@@ -16,9 +17,9 @@ class PathFindingVisualizer extends Component {
       finishCol: null,
       distance: null,
       showModal: true,
+      isMousePressed: false,
     };
     this.toggleModal = this.toggleModal.bind(this);
-    this.toggleWall = this.toggleWall.bind(this);
     this.toggleWallMode = this.toggleWallMode.bind(this);
     this.toggleStartFinish = this.toggleStartFinish.bind(this);
     this.initalizeGrid = this.initalizeGrid.bind(this);
@@ -29,9 +30,11 @@ class PathFindingVisualizer extends Component {
   componentDidMount() {
     let screenSize = window.screen.availWidth;
 
-    if (screenSize < 1300 && screenSize > 700) {
-      columns = 25;
-    } else if (screenSize < 700 && screenSize > 500) {
+    if (screenSize < 1400 && screenSize >= 1000) {
+      columns = 38;
+    } else if (screenSize < 1000 && screenSize >= 780) {
+      columns = 30;
+    } else if (screenSize < 780 && screenSize > 500) {
       columns = 20;
     } else if (screenSize < 500) {
       columns = 14;
@@ -74,14 +77,12 @@ class PathFindingVisualizer extends Component {
       finishCol,
     });
   }
-  toggleWall(row, col) {
+  getNewGridWithToggledWall = (row, col) => {
     let { grid } = this.state;
     let newGrid = [...grid];
     newGrid[row][col].isWall = true;
-    this.setState({
-      grid: newGrid,
-    });
-  }
+    return newGrid;
+  };
 
   initalizeGrid() {
     let grid = [];
@@ -106,7 +107,9 @@ class PathFindingVisualizer extends Component {
       startCol: null,
       finishRow: null,
       finishCol: null,
+      distance: null,
       showModal: true,
+      isMousePressed: false,
     });
   }
 
@@ -142,6 +145,30 @@ class PathFindingVisualizer extends Component {
     }, visitedNodes.length * 25);
   }
 
+  handleMouseDown = (row, col) => {
+    let newGrid = this.getNewGridWithToggledWall(row, col);
+    this.setState({
+      grid: newGrid,
+      isMousePressed: true,
+    });
+  };
+
+  handleMouseUp = () => {
+    this.setState({
+      isMousePressed: false,
+    });
+  };
+
+  handleMouseEnter = (row, col) => {
+    let { isMousePressed } = this.state;
+    if (isMousePressed) {
+      let newGrid = this.getNewGridWithToggledWall(row, col);
+      this.setState({
+        grid: newGrid,
+      });
+    }
+  };
+
   animatePath(path) {
     for (let i = 1; i < path.length - 1; i++) {
       setTimeout(() => {
@@ -169,59 +196,73 @@ class PathFindingVisualizer extends Component {
     });
   }
 
+  getStatusInfo = () => {
+    let status = "default";
+    let { wallMode, startRow, finishRow } = this.state;
+    if (wallMode) {
+      status = "Click on the blocks to add walls";
+    } else if (startRow != null && finishRow != null) {
+      status = "Ready to visualise";
+    } else if (startRow != null) {
+      status = "Select destination";
+    } else {
+      status = "Select source";
+    }
+    console.log(status);
+    return status;
+  };
+
   render() {
-    console.log("rendering ");
-    let { grid, distance, wallMode,showModal } = this.state;
+    let { grid, distance, wallMode, showModal } = this.state;
     return (
       <React.Fragment>
+        <NavBar visualize={this.visualize} reset={this.reset} />
         <InfoModal showModal={showModal} toggleModal={this.toggleModal} />
-        <h3>Path Finding Visualizer</h3>
-        <button className="btn btn-primary m-1" onClick={this.reset}>
-          Reset
-        </button>
-        <button className="btn btn-warning" onClick={this.visualize}>
-          Visualize
-        </button>
-        <div className="m-1">
-          <div className="info-tab">
-            <Node nodeType="start-node" />
-            <span className="info-text">Start</span>
-          </div>
-          <div className="info-tab">
-            <Node nodeType="destination-node" />
-            <span className="info-text"> Destination</span>
-          </div>
-          <div className="info-tab">
-            <Node nodeType="visited-node" />
-            <span className="info-text">Visited</span>
-          </div>
-          <div className="info-tab">
-            <Node nodeType="path-node" />
-            <span className="info-text">Path</span>
-          </div>
 
-          <div className="custom-control custom-checkbox">
-            <input
-              type="checkbox"
-              className="custom-control-input"
-              id="wallMode"
-              checked={wallMode}
-              onChange={this.toggleWallMode}
-            />
-            <label className="custom-control-label" htmlFor="wallMode">
-              WallMode
-            </label>
-          </div>
+        <div className="m-1"></div>
+
+        <div className="info-tab">
+          <div className="box start-node"></div>
+          <span className="info-text">Start</span>
         </div>
-        <p
-          className="distance lead"
-          style={{ visibility: distance ? "visible" : "hidden" }}
-        >
-          {distance !== -1
-            ? `Shortest Distance is ${distance}`
-            : "NO PATH FOUND"}
-        </p>
-        <div className="visualizer">
+
+        <div className="info-tab">
+          <div className="box destination-node"></div>
+          <span className="info-text"> Destination</span>
+        </div>
+        <div className="info-tab">
+          <div className="box visited-node"></div>
+          <span className="info-text">Visited</span>
+        </div>
+        <div className="info-tab">
+          <div className="box path-node"></div>
+          <span className="info-text">Path</span>
+        </div>
+        <div className="info-tab">
+          <div className="box wall-node"></div>
+          <span className="info-text">Path</span>
+        </div>
+
+        <div className="custom-control custom-checkbox mb-3">
+          <input
+            type="checkbox"
+            className="custom-control-input"
+            id="wallMode"
+            checked={wallMode}
+            onChange={this.toggleWallMode}
+          />
+          <label className="custom-control-label" htmlFor="wallMode">
+            Wall Mode
+          </label>
+        </div>
+        <span className="bg-dark text-white font-weight-light p-2 m-1">
+          {!distance && this.getStatusInfo()}
+          {distance &&
+            (distance !== -1
+              ? `Shortest Distance is ${distance}`
+              : "NO PATH FOUND")}
+        </span>
+        <div className="visualizer mt-3">
           {grid.map((row, rowIndex) => {
             return (
               <div key={`row${rowIndex}`} style={{ lineWidth: "0px" }}>
@@ -229,7 +270,9 @@ class PathFindingVisualizer extends Component {
                   <Node
                     id={`node-${rowIndex}-${colIndex}`}
                     wallMode={wallMode}
-                    toggleWall={this.toggleWall}
+                    handleMouseDown={this.handleMouseDown}
+                    handleMouseEnter={this.handleMouseEnter}
+                    handleMouseUp={this.handleMouseUp}
                     key={`node-${rowIndex}-${colIndex}`}
                     {...grid[rowIndex][colIndex]}
                     toggleStartFinish={() =>

@@ -11,19 +11,22 @@ class Node extends Component {
       isFinish,
       wallMode,
       isWall,
-      toggleWall,
+      handleMouseDown,
+      handleMouseUp,
+      handleMouseEnter,
       toggleStartFinish,
-      nodeType = "",
     } = this.props;
     return (
       <div
         id={id}
-        onClick={wallMode ? () => toggleWall(row, col) : toggleStartFinish}
+        onClick={!wallMode ? () => toggleStartFinish(row, col) : null}
+        onMouseDown={wallMode ? () => handleMouseDown(row, col) : null}
+        onMouseUp={wallMode ? () => handleMouseUp(row, col) : null}
+        onMouseEnter={wallMode ? () => handleMouseEnter(row, col) : null}
         className={classNames("box border border-primary", {
           "start-node": isStart,
           "destination-node": isFinish,
           "wall-node": isWall,
-          [nodeType]: true,
         })}
       ></div>
     );

@@ -8,6 +8,7 @@ const tutorial = [
       `This short tutorial will walk you through all of the features of this application.`,
       `If you want to dive right in, feel free to press the "Skip Tutorial" button below. Otherwise, press "Next"!`,
     ],
+    image: "",
   },
   {
     title: "What is a pathfinding algorithm?",
@@ -16,6 +17,7 @@ const tutorial = [
       `A BFS alogrithm moves level by level.
       We can either move right,left ,up or down and movements from a node to another have a "cost" of 1.`,
     ],
+    image: "",
   },
   {
     title: "Adding walls ",
@@ -23,6 +25,7 @@ const tutorial = [
       `You can switch to wall mode by clicking on the checkbox and add walls in the grid.`,
       `A wall will block the path and will now allow you to go through.`,
     ],
+    image: "wallmode.jpeg",
   },
 ];
 
@@ -36,20 +39,22 @@ const InfoModal = (props) => {
   const previousStep = () => setcurrStep(currStep - 1);
   const isLastSlide = currStep === tutorial.length - 1;
   const isFirstSlide = currStep === 0;
-
+  const { title, content, image } = tutorial[currStep];
   return (
     <div>
       <Modal isOpen={showModal} toggle={toggleModal}>
         <ModalHeader toggle={toggleModal}>
           <span style={{ fontSize: 28 }} className="text-center">
-            {tutorial[currStep].title}
+            {title}
           </span>
         </ModalHeader>
         <ModalBody>
           <div className="text-center lead">
-            <p>{tutorial[currStep].content[0]}</p>
+            <p>{content[0]}</p>
 
-            <p style={{ fontSize: 18 }}>{tutorial[currStep].content[1]}</p>
+            <p style={{ fontSize: 18 }}>{content[1]}</p>
+
+            {image && <img src={image} />}
           </div>
         </ModalBody>
         <ModalFooter>
