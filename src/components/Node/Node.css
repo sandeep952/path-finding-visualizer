@@ -3,6 +3,7 @@
   height: 25px;
   display: inline-block;
   cursor: pointer;
+  border:#74B9FF 1px solid
 }
 .start-node {
   background-color: #ffc107;
@@ -21,11 +22,11 @@
   margin: 5px;
 }
 .visited-node {
-  background-color: #00cccd;
+  background-color: #61dafb;
   transition: background-color 0.3s ease;
 }
 .path-node {
-  background-color: #4834df;
+  background-color: #0A79DF;
   transition: background-color 0.3s ease;
 }
 .distance {

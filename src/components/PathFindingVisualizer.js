@@ -3,7 +3,7 @@ import { bfs, traceBackPath } from "../algorithms";
 import InfoModal from "./InfoModal";
 import NavBar from "./NavBar";
 import Node from "./Node/Node";
-let rows = 17;
+let rows = 20;
 let columns = 55;
 class PathFindingVisualizer extends Component {
   constructor(props) {
@@ -32,12 +32,16 @@ class PathFindingVisualizer extends Component {
 
     if (screenSize < 1400 && screenSize >= 1000) {
       columns = 38;
+      rows = 17;
     } else if (screenSize < 1000 && screenSize >= 780) {
       columns = 30;
+      rows = 17;
     } else if (screenSize < 780 && screenSize > 500) {
       columns = 20;
+      rows = 17;
     } else if (screenSize < 500) {
       columns = 14;
+      rows = 17;
     }
     this.initalizeGrid();
   }
@@ -61,6 +65,9 @@ class PathFindingVisualizer extends Component {
     )
       return;
     if (startRow != null && startCol != null) {
+      if (startRow === row && startCol === col)
+        return alert("destination cannot be same as source");
+
       updatedGrid[row][col].isFinish = true;
       finishRow = row;
       finishCol = col;
@@ -120,13 +127,8 @@ class PathFindingVisualizer extends Component {
 
   visualize() {
     let { grid, startRow, startCol, finishRow, finishCol } = this.state;
-    if (
-      startRow == null ||
-      startCol == null ||
-      !finishRow == null ||
-      finishCol == null
-    )
-      return;
+    if (startRow == null) return alert("Select source");
+    else if (finishRow == null) return alert("Select destination");
 
     let { visitedNodes, path, distance } = bfs(
       grid[startRow][startCol],
@@ -265,7 +267,11 @@ class PathFindingVisualizer extends Component {
         <div className="visualizer mt-3">
           {grid.map((row, rowIndex) => {
             return (
-              <div key={`row${rowIndex}`} style={{ lineWidth: "0px" }}>
+              <div
+                className="gridRow"
+                key={`row${rowIndex}`}
+                style={{ lineWidth: "0px" }}
+              >
                 {row.map((element, colIndex) => (
                   <Node
                     id={`node-${rowIndex}-${colIndex}`}
